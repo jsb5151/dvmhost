@@ -107,6 +107,10 @@ namespace p25
              * @brief 
              */
             __PROPERTY(uint8_t, nRssi, NRSSI);
+            /**
+             * @brief V.24 Data Source.
+             */
+            __PROPERTY(SourceFlag::E, source, Source);
         };
     } // namespace dfsi
 } // namespace p25

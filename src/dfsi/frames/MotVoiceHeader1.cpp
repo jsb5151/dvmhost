@@ -32,7 +32,8 @@ MotVoiceHeader1::MotVoiceHeader1() :
     m_icw(ICWFlag::DIU),
     m_rssi(0U),
     m_rssiValidity(RssiValidityFlag::INVALID),
-    m_nRssi(0U)
+    m_nRssi(0U),
+    m_source(SourceFlag::QUANTAR)
 {
     startOfStream = new MotStartOfStream();
 
@@ -48,7 +49,8 @@ MotVoiceHeader1::MotVoiceHeader1(uint8_t* data) :
     m_icw(ICWFlag::DIU),
     m_rssi(0U),
     m_rssiValidity(RssiValidityFlag::INVALID),
-    m_nRssi(0U)
+    m_nRssi(0U),
+    m_source(SourceFlag::QUANTAR)
 {
     decode(data);
 }
@@ -86,6 +88,7 @@ bool MotVoiceHeader1::decode(const uint8_t* data)
     m_rssi = data[6U];
     m_rssiValidity = (RssiValidityFlag::E)data[7U];
     m_nRssi = data[8U];
+    m_source = (SourceFlag::E)data[29];
 
     // our header includes the trailing source and check bytes
     if (header != nullptr)
@@ -125,4 +128,5 @@ void MotVoiceHeader1::encode(uint8_t* data)
     if (header != nullptr) {
         ::memcpy(data + 9U, header, HCW_LENGTH);
     }
+    data[LENGTH - 1U] = (uint8_t)m_source;
 }
